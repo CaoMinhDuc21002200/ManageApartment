@@ -12,7 +12,7 @@ public class ScheduleTask {
     @Autowired
     private ResidentNotificationServiceImplement residentNotificationServiceImplement;
 
-    @Scheduled(cron = "0 0 9 1 * ?")
+    @Scheduled(cron = "0 0 9 1 * ?")//Every 9am at first day each month
     public void sendFeeNotification() {
         residentNotificationServiceImplement.notifyResidentAboutFees();
     }
