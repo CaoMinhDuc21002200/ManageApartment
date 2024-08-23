@@ -1,0 +1,9 @@
+com\cmd\manageapartment\manageapartment\ApartmentServiceTest.class
+com\cmd\manageapartment\manageapartment\ResidentRepositoryTest.class
+com\cmd\manageapartment\manageapartment\ExtraFeeRepositoryTest.class
+com\cmd\manageapartment\manageapartment\OwnersRepositoryTest.class
+com\cmd\manageapartment\manageapartment\FeeRepositoryTest.class
+com\cmd\manageapartment\manageapartment\ManageapartmentApplicationTests.class
+com\cmd\manageapartment\manageapartment\ApartmentControllerTest.class
+com\cmd\manageapartment\manageapartment\ApartmentRepositoryTest.class
+com\cmd\manageapartment\manageapartment\OwnersServiceTest.class
