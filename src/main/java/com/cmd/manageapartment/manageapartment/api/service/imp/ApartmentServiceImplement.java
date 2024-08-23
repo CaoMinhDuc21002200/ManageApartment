@@ -1,0 +1,76 @@
+package com.cmd.manageapartment.manageapartment.api.service.imp;
+
+import com.cmd.manageapartment.manageapartment.api.exception.ResourceNotFoundException;
+import com.cmd.manageapartment.manageapartment.api.models.Apartment;
+import com.cmd.manageapartment.manageapartment.api.repository.ApartmentRepository;
+import com.cmd.manageapartment.manageapartment.api.service.ApartmentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@Service
+public class ApartmentServiceImplement implements ApartmentService {
+
+    private final ApartmentRepository apartmentRepository;
+    //Debug
+    private final static Logger logger = LoggerFactory.getLogger(ApartmentServiceImplement.class);
+
+    @Autowired
+    public ApartmentServiceImplement(ApartmentRepository apartmentRepository) {
+        this.apartmentRepository = apartmentRepository;
+    }
+    @Override
+    public Apartment createApartment(Apartment apartment) {
+        try {
+            return apartmentRepository.save(apartment);
+        }catch(DataIntegrityViolationException e) {
+            throw new DataIntegrityViolationException("Apartment already exists or failed to create.");
+        }
+    }
+
+    @Override
+    public Optional<Apartment> getApartmentById(UUID apartmentId) {
+
+        Apartment apartment= apartmentRepository.findById(apartmentId).orElseThrow(()
+                -> new ResourceNotFoundException("Apartment not found"));
+        return Optional.of(apartment);
+    }
+
+    @Override
+    public List<Apartment> getAllApartments() {
+        return apartmentRepository.findAll();
+    }
+
+    @Override
+    public void deleteApartmentById(UUID apartmentId) {
+        apartmentRepository.delete(apartmentRepository.findById(apartmentId).get());
+    }
+
+    @Override
+    public Apartment updateApartment(UUID id, Apartment apartment){
+        Optional<Apartment> existingApartment = apartmentRepository.findById(id);
+        if (existingApartment.isPresent()) {
+            Apartment apartmentToUpdate = existingApartment.get();
+
+            // Update fields with the new values
+            apartmentToUpdate.setApartmentNumber(apartment.getApartmentNumber());
+            apartmentToUpdate.setSquareFootage(apartment.getSquareFootage());
+            apartmentToUpdate.setRooms(apartment.getRooms());
+            apartmentToUpdate.setFloorLevel(apartment.getFloorLevel());
+            apartmentToUpdate.setNeighborSafety(apartment.isNeighborSafety());
+            apartmentToUpdate.setRepairStatus(apartment.isRepairStatus());
+
+            // Save the updated apartment
+            return apartmentRepository.save(apartmentToUpdate);
+        } else {
+            throw new RuntimeException("Apartment not found with ID: " + id);
+        }
+    }
+
+}
