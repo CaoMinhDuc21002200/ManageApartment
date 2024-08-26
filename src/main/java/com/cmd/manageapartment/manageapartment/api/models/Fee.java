@@ -64,7 +64,6 @@ public class Fee {
         this.id = UUID.randomUUID();
         this.electricityUsage = electricityUsage != null ? electricityUsage : 0.0;
         this.waterUsage = waterUsage != null ? waterUsage : 0.0;
-        this.status = status;
         calculateTotalAmountDue();
     }
 

@@ -9,11 +9,13 @@ import java.util.UUID;
 public interface ResidentsService {
 
 
-    Residents createResidentWithApartmentId(UUID apartmentId, Residents residents);
+    Residents createResidentWithApartmentNumber(String apartmentNumber, Residents residents);
 
     Optional<Residents> getResidentById(UUID residentId);
 
     List<Residents> getAllResidents();
+
+    List<Residents> getResidentsByName(String residentName);
 
     void deleteResidentById(UUID id);
 

@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.UUID;
 
 @Service
@@ -28,6 +30,7 @@ public class ApartmentServiceImplement implements ApartmentService {
     @Override
     public Apartment createApartment(Apartment apartment) {
         try {
+            apartment.setDelete(false);
             return apartmentRepository.save(apartment);
         }catch(DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("Apartment already exists or failed to create.");
@@ -43,18 +46,42 @@ public class ApartmentServiceImplement implements ApartmentService {
     }
 
     @Override
+    public Optional<Apartment> getApartmentByNumber(String apartmentNumber){
+        Apartment apartment = apartmentRepository.findByApartmentNumber(apartmentNumber).orElse(null);
+        if (apartment == null) {
+            throw new ResourceNotFoundException("Apartment not found");
+        }
+        return Optional.of(apartment);
+    }
+
+    @Override
     public List<Apartment> getAllApartments() {
         return apartmentRepository.findAll();
     }
 
     @Override
-    public void deleteApartmentById(UUID apartmentId) {
-        apartmentRepository.delete(apartmentRepository.findById(apartmentId).get());
+    public void deleteApartmentByApartmentNumber(String apartmentNumber) {
+        Apartment apartment = apartmentRepository.findByApartmentNumber(apartmentNumber).orElseThrow(null);
+        if (apartment == null) {
+            throw new ResourceNotFoundException("Apartment not found");
+        }
+        apartmentRepository.delete(apartment);
     }
 
     @Override
-    public Apartment updateApartment(UUID id, Apartment apartment){
-        Optional<Apartment> existingApartment = apartmentRepository.findById(id);
+    public void deleteLogicApartmentByNumber(String apartmentNumber){
+        Apartment apartment = apartmentRepository.findByApartmentNumber(apartmentNumber).orElseThrow(null);
+        if(apartment == null){
+            throw new ResourceNotFoundException("Apartment not found");
+        }
+        apartment.setDelete(true);
+        apartmentRepository.save(apartment);
+    }
+
+
+    @Override
+    public Apartment updateApartment(String apartmentNumber, Apartment apartment){
+        Optional<Apartment> existingApartment = apartmentRepository.findByApartmentNumber(apartmentNumber);
         if (existingApartment.isPresent()) {
             Apartment apartmentToUpdate = existingApartment.get();
 
@@ -69,7 +96,7 @@ public class ApartmentServiceImplement implements ApartmentService {
             // Save the updated apartment
             return apartmentRepository.save(apartmentToUpdate);
         } else {
-            throw new RuntimeException("Apartment not found with ID: " + id);
+            throw new RuntimeException("Apartment not found with number: " + apartmentNumber);
         }
     }
 

@@ -35,17 +35,18 @@ public class FeeServiceImplement implements FeeService {
     //Update:
 
     //Add total_extra_fee to total_amount_due
-    public void createFeeForApartment(UUID apartmentId, Fee fee) {
-        Apartment apartment = apartRepository.findById(apartmentId)
+    public void createFeeForApartment(String apartmentNumber, Fee fee) {
+        Apartment apartment = apartRepository.findByApartmentNumber(apartmentNumber)
                 .orElseThrow(() -> new RuntimeException("Apartment not found"));
         ExtraFee extraFee = new ExtraFee(apartment);
         extraFee.recalculateFees();
         fee.setTotal_extra_fee(extraFee.getTotalExtraFee());
         fee.setApartment(apartment);
+        fee.setStatus(PaymentStatus.PENDING);
         feeRepository.save(fee);
     }
 
-
+    //Get
     @Override
     public Optional<Fee> getFeeById(UUID id){
         return feeRepository.findById(id);
@@ -58,17 +59,24 @@ public class FeeServiceImplement implements FeeService {
 
     @Override
     public Fee updateFeeById(UUID id, Fee updatedFee) {
-        if (feeRepository.existsById(id)) {
-            updatedFee.setId(id);
-            return feeRepository.save(updatedFee);
-        } else {
-            throw new RuntimeException("Fee with ID " + id + " not found.");
-        }
+        Fee oldFee = feeRepository.findById(id).orElseThrow(() -> new RuntimeException("Fee not found"));
+        updatedFee.setId(id);
+        updatedFee.setApartment(oldFee.getApartment());
+        //Extra fee
+        ExtraFee updateExtra = new ExtraFee(updatedFee.getApartment());
+        updateExtra.recalculateFees();
+
+        updatedFee.setTotal_extra_fee(updateExtra.getTotalExtraFee());
+        updatedFee.setStatus(oldFee.getStatus());
+        return feeRepository.save(updatedFee);
     }
 
     @Override
-    public Fee getFeesByApartmentId(UUID apartmentId) {
-        return feeRepository.findByApartment_Id(apartmentId);
+    public List<Fee> getFeesByApartmentNumber(String apartmentNumber) {
+        Apartment apartment = apartRepository.findByApartmentNumber(apartmentNumber)
+                .orElseThrow(() -> new RuntimeException("Apartment not found"));
+
+        return feeRepository.findByApartment_Id(apartment.getId());
     }
 
     @Override

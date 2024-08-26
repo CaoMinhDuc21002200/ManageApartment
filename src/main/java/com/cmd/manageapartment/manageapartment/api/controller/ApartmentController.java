@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,11 +33,13 @@ public class ApartmentController {
         return new ResponseEntity<>(createApartment, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Apartment> getApartmentById(@PathVariable UUID id) {
-        Optional<Apartment> apartment = apartmentService.getApartmentById(id);
-            return apartment.map(ResponseEntity::ok)
-                    .orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping("/{apartmentNumber}")
+    public ResponseEntity<Apartment> getApartmentByNumber(@PathVariable String apartmentNumber) {
+        Apartment apartment = apartmentService.getApartmentByNumber(apartmentNumber).orElseThrow(null);
+        if (apartment == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+            return new ResponseEntity<>(apartment, HttpStatus.OK);
     }
 
     @GetMapping("")
@@ -46,16 +49,22 @@ public class ApartmentController {
     }
 
     //Put
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateApartment(@PathVariable UUID id, @RequestBody Apartment apartment) {
-      Apartment updatedApartment = apartmentService.updateApartment(id, apartment);
-      return new ResponseEntity<>("Update Apartment Successfully.\n" + updatedApartment, HttpStatus.OK);
+    @PutMapping("/{num}")
+    public ResponseEntity<String> updateApartment(@PathVariable String num, @RequestBody Apartment apartment) {
+      Apartment updatedApartment = apartmentService.updateApartment(num, apartment);
+      return new ResponseEntity<>("Update Apartment Successfully.", HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteApartmentById(@PathVariable UUID id) {
-        apartmentService.deleteApartmentById(id);
+    @DeleteMapping("/{num}")
+    public ResponseEntity<String> deleteApartmentByApartmentNumber(@PathVariable String num) {
+        apartmentService.deleteApartmentByApartmentNumber(num);
         return new ResponseEntity<>("Delete Successfully.", HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/temporary/{apartmentNumber}")
+    public ResponseEntity<String> deleteLogicalApartmentByApartmentNumber(@PathVariable String apartmentNumber) {
+        apartmentService.deleteLogicApartmentByNumber(apartmentNumber);
+        return new ResponseEntity<>("Delete Logically Successfully.", HttpStatus.OK);
     }
 
 

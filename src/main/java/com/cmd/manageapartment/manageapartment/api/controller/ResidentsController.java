@@ -25,9 +25,9 @@ public class ResidentsController {
     //Post
     // {fullname,sex,date_of_birth,phone,email,identity_card_number}
 
-    @PostMapping("{apartment_id}")
-    public ResponseEntity<String> createResidentWithApartmentId(@PathVariable UUID apartment_id,@RequestBody Residents resident) {
-        Residents createdResident = residentsService.createResidentWithApartmentId(apartment_id,resident);
+    @PostMapping("apartment/{apartmentNumber}")
+    public ResponseEntity<String> createResidentWithApartmentId(@PathVariable String apartmentNumber,@RequestBody Residents resident) {
+        Residents createdResident = residentsService.createResidentWithApartmentNumber(apartmentNumber,resident);
         return new ResponseEntity<>("Create Resident Successfully.\n"+ createdResident, HttpStatus.CREATED);
     }
 

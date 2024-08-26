@@ -8,18 +8,21 @@ import com.cmd.manageapartment.manageapartment.api.repository.ApartmentRepositor
 import com.cmd.manageapartment.manageapartment.api.repository.ResidentsRepository;
 //import com.cmd.manageapartment.manageapartment.api.service.ResidentService;
 import com.cmd.manageapartment.manageapartment.api.service.ResidentsService;
+import lombok.extern.flogger.Flogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @Service
 public class ResidentsServiceImplement implements ResidentsService {
     private final ResidentsRepository residentsRepository;
     private final ApartmentRepository apartmentRepository;
-
+    private final Logger logger = Logger.getLogger(ResidentsServiceImplement.class.getName());
     @Autowired
     public ResidentsServiceImplement(ResidentsRepository residentsRepository,
                                      ApartmentRepository apartmentRepository) {
@@ -28,10 +31,26 @@ public class ResidentsServiceImplement implements ResidentsService {
     }
 
     @Override
-    public Residents createResidentWithApartmentId(UUID apartmentId, Residents residents) {
-        Optional<Apartment> apartment = Optional.of(apartmentRepository.findById(apartmentId).get());
-        if(apartment.isPresent()) {
-            residents.setApartment(apartment.get());
+    public List<Residents> getResidentsByName(String fullname) {
+//        List<Residents> foundResidents = new ArrayList<>();
+//        for(Residents resident : residentsRepository.findAll()) {
+//            System.out.println(fullname);
+//            if(resident.getFullName().equals(fullname)) {
+//                foundResidents.add(resident);
+//            }
+//
+//            logger.info("List resident:" + resident.getFullName());
+//        }
+//        return foundResidents;
+        return residentsRepository.findByFullName(fullname);
+    }
+
+
+    @Override
+    public Residents createResidentWithApartmentNumber(String apartmentNumber, Residents residents) {
+        Apartment apartment = apartmentRepository.findByApartmentNumber(apartmentNumber).orElse(null);
+        if(apartment != null) {
+            residents.setApartment(apartment);
             return residentsRepository.save(residents);
 
         }else

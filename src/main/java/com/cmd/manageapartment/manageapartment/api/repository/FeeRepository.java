@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface FeeRepository extends JpaRepository<Fee, UUID> {
 
-    Fee findByApartment_Id(UUID apartmentId);
+    List<Fee> findByApartment_Id(UUID apartmentId);
 
 
     List<Fee> findByStatus(PaymentStatus status);

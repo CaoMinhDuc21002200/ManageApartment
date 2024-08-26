@@ -12,9 +12,13 @@ public interface ApartmentService {
 
     Optional<Apartment> getApartmentById(UUID id);
 
+    Optional<Apartment> getApartmentByNumber(String apartmentNumber);
+
+    void deleteLogicApartmentByNumber(String apartmentNumber);
+
     List<Apartment> getAllApartments();
 
-    void deleteApartmentById(UUID id);
+    void deleteApartmentByApartmentNumber(String apartmentNumber);
 
-    Apartment updateApartment(UUID id, Apartment apartment);
+    Apartment updateApartment(String apartmentNumber, Apartment apartment);
 }

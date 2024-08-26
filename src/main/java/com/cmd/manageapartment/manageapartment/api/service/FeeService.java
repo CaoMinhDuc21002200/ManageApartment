@@ -18,7 +18,7 @@ public interface FeeService {
     //Fix the method to update: use apartmentId
     // and {electricityUsage,waterUsage,status}
     //Remove status parameter later...
-    void  createFeeForApartment(UUID apartmentId, Fee fee);
+    void  createFeeForApartment(String apartmentNumber, Fee fee);
 
     Optional<Fee> getFeeById(UUID id);
 
@@ -28,7 +28,7 @@ public interface FeeService {
 
     Fee updateFeeById(UUID id, Fee fee);
 
-    Fee getFeesByApartmentId(UUID apartmentId);
+    List<Fee> getFeesByApartmentNumber(String apartmentNumber);
 
     List<Fee> getFeesByPaymentStatus(PaymentStatus paymentStatus);
 

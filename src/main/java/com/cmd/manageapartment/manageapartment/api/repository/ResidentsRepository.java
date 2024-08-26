@@ -10,5 +10,5 @@ public interface ResidentsRepository extends JpaRepository<Residents, UUID> {
 
     List<Residents> findByApartmentId(UUID apartmentId);
 
-    List<Residents> findByFullName(String fullname);
+    List<Residents> findByFullName(String fullName);
 }

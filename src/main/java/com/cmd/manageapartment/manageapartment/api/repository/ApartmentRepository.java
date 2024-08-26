@@ -14,4 +14,5 @@ public interface ApartmentRepository extends JpaRepository<Apartment, UUID> {
 
     boolean existsByApartmentNumber(String apartmentNumber);
 
+
 }

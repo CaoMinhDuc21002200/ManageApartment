@@ -37,6 +37,9 @@ public class Apartment {
     @Column(name = "repair_status")
     private Boolean repairStatus;
 
+    @Column(name = "is_delete")
+    private Boolean isDelete;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -107,6 +110,14 @@ public class Apartment {
         return floorLevel;
     }
 
+    public Boolean getDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
+    }
+
     public void setFloorLevel(Integer floorLevel) {
         this.floorLevel = floorLevel;
     }
@@ -139,6 +150,7 @@ public class Apartment {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
     @Override
     public String toString() {
         return "Apartment{" +
@@ -149,6 +161,7 @@ public class Apartment {
                 ", floorLevel=" + floorLevel +
                 ", neighborSafety=" + neighborSafety +
                 ", repairStatus=" + repairStatus +
+                ", isDelete=" + isDelete +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

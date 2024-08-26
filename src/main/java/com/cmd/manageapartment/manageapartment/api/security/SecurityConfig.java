@@ -39,7 +39,6 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable).exceptionHandling(exception ->{
                     exception.authenticationEntryPoint(jwtAuthEntryPoint);
 
-
                 }).sessionManagement(session ->{
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })
@@ -49,7 +48,6 @@ public class SecurityConfig {
                     auth.requestMatchers("/api/test").permitAll();
                     //Auth for specific role
 //                    auth.requestMatchers(HttpMethod.POST, "/api/residents/**").permitAll();
-                    auth.requestMatchers(HttpMethod.GET,"/api/residents/**").hasAnyRole("OWNER","ADMIN");
                     auth.requestMatchers(HttpMethod.POST).hasAnyRole("ADMIN");
                     auth.requestMatchers("/api/admin/**").hasAnyRole("ADMIN");
                     auth.requestMatchers(HttpMethod.GET).permitAll();

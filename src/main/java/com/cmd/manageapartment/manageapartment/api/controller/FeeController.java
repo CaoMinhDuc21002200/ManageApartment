@@ -28,9 +28,9 @@ public class FeeController {
         //Fix the method to update: use apartmentId
         // and {electricityUsage,waterUsage,status}
         //Remove status parameter later...
-        @PostMapping("apartment/{apartmentId}")
-        public ResponseEntity<String> createFeeForApartment(@PathVariable UUID apartmentId,@RequestBody Fee fee){
-            feeService.createFeeForApartment(apartmentId,fee);
+        @PostMapping("apartment/{apartmentNumber}")
+        public ResponseEntity<String> createFeeForApartment(@PathVariable String apartmentNumber,@RequestBody Fee fee){
+            feeService.createFeeForApartment(apartmentNumber,fee);
             return new ResponseEntity<>("Created Fee Successfully.", HttpStatus.CREATED);
         }
 
@@ -52,9 +52,9 @@ public class FeeController {
 
 
 
-        @GetMapping("/apartment/{apartmentId}")
-        public ResponseEntity<Fee> getFeesByApartmentId(@PathVariable UUID apartmentId) {
-        Fee fees = feeService.getFeesByApartmentId(apartmentId);
+        @GetMapping("/apartment/{apartmentNumber}")
+        public ResponseEntity<List<Fee>> getFeesByApartmentNumber(@PathVariable String apartmentNumber) {
+        List<Fee> fees = feeService.getFeesByApartmentNumber(apartmentNumber);
         if (fees == null) {
             return ResponseEntity.notFound().build();
         }
@@ -62,7 +62,7 @@ public class FeeController {
 
     }
         @GetMapping("/payment-status/{status}")
-        public ResponseEntity<List<Fee>> getFeesByPaymentStatus(@PathVariable @RequestParam PaymentStatus status) {
+        public ResponseEntity<List<Fee>> getFeesByPaymentStatus(@PathVariable PaymentStatus status) {
         List<Fee> fees = feeService.getFeesByPaymentStatus(status);
         if (fees.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -75,8 +75,8 @@ public class FeeController {
         @PutMapping("/{id}")
         public ResponseEntity<String> updateFeeById(@PathVariable("id") UUID id,@RequestBody Fee feeDetails){
             Fee updatedFee = feeService.updateFeeById(id,feeDetails);
-            return new ResponseEntity<>("Updated Fee Successfully." + "\n"
-                    + updatedFee, HttpStatus.OK);
+            return new ResponseEntity<>("Updated Fee Successfully."
+                    , HttpStatus.OK);
         }
 
         @PutMapping("/{id}/payment-status")
