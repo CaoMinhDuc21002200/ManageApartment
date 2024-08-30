@@ -33,6 +33,7 @@ public class ApartmentServiceImplement implements ApartmentService {
             apartment.setDelete(false);
             return apartmentRepository.save(apartment);
         }catch(DataIntegrityViolationException e) {
+            logger.error("Apartment with number {} already exists.", apartment.getApartmentNumber());
             throw new DataIntegrityViolationException("Apartment already exists or failed to create.");
         }
     }
@@ -61,10 +62,8 @@ public class ApartmentServiceImplement implements ApartmentService {
 
     @Override
     public void deleteApartmentByApartmentNumber(String apartmentNumber) {
-        Apartment apartment = apartmentRepository.findByApartmentNumber(apartmentNumber).orElseThrow(null);
-        if (apartment == null) {
-            throw new ResourceNotFoundException("Apartment not found");
-        }
+        Apartment apartment = apartmentRepository.findByApartmentNumber(apartmentNumber)
+                .orElseThrow(() -> new ResourceNotFoundException("Apartment not found with number: " + apartmentNumber));
         apartmentRepository.delete(apartment);
     }
 

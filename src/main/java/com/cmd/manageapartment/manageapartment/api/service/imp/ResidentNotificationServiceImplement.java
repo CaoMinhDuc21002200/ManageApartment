@@ -42,7 +42,7 @@ public class ResidentNotificationServiceImplement implements ResidentNotificatio
             UUID apartmentId = resident.getApartment().getId();
 
             if (processedApartments.contains(apartmentId)) {
-                continue; 
+                continue;
             }
 
             if (resident.getRelationshipToOwner().equals("owner")){

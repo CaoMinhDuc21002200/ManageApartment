@@ -16,6 +16,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/apartments")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ApartmentController {
 
     private final ApartmentService apartmentService;
@@ -28,9 +29,12 @@ public class ApartmentController {
 
     //Post
     @PostMapping("")
-    public ResponseEntity<Apartment> createApartment(@Validated @RequestBody Apartment apartment) {
-        Apartment createApartment = apartmentService.createApartment(apartment);
-        return new ResponseEntity<>(createApartment, HttpStatus.CREATED);
+    public ResponseEntity<String> createApartment(@Validated @RequestBody Apartment apartment) {
+        try {
+            Apartment createApartment = apartmentService.createApartment(apartment);
+            return new ResponseEntity<>("Create apartment successfully", HttpStatus.CREATED);
+
+        }catch (Exception e) {return new ResponseEntity<>("Apartment already existed.",HttpStatus.BAD_REQUEST);}
     }
 
     @GetMapping("/{apartmentNumber}")

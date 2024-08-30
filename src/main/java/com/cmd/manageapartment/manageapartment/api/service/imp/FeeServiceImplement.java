@@ -22,10 +22,12 @@ public class FeeServiceImplement implements FeeService {
     private final FeeRepository feeRepository;
     private final ApartmentRepository apartRepository;
 
+
     @Autowired
     public FeeServiceImplement(FeeRepository feeRepository, ApartmentRepository apartRepository) {
         this.feeRepository = feeRepository;
         this.apartRepository = apartRepository;
+
     }
     //no need to use this anymore
 //    @Override
@@ -67,7 +69,10 @@ public class FeeServiceImplement implements FeeService {
         updateExtra.recalculateFees();
 
         updatedFee.setTotal_extra_fee(updateExtra.getTotalExtraFee());
-        updatedFee.setStatus(oldFee.getStatus());
+
+        if(updatedFee.getStatus() ==null) {
+            updatedFee.setStatus(oldFee.getStatus());
+        }
         return feeRepository.save(updatedFee);
     }
 

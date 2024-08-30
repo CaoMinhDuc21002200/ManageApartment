@@ -11,7 +11,7 @@ import java.util.UUID;
 
 
 @Entity
-@Table(name = "apartment")
+@Table(name = "apartment",uniqueConstraints = @UniqueConstraint(columnNames = "apartment_number"))
 public class Apartment {
 
     @Id

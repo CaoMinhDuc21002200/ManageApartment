@@ -60,12 +60,33 @@ public class Fee {
 
     public Fee(){}
 
-    public Fee(Double electricityUsage, Double waterUsage, PaymentStatus status) {
+    public Fee(Double electricityUsage, Double waterUsage) {
         this.id = UUID.randomUUID();
         this.electricityUsage = electricityUsage != null ? electricityUsage : 0.0;
         this.waterUsage = waterUsage != null ? waterUsage : 0.0;
         calculateTotalAmountDue();
     }
+
+    public Fee(Double electricityUsage, Double waterUsage, PaymentStatus status) {
+        this.id = UUID.randomUUID();
+        this.electricityUsage = electricityUsage != null ? electricityUsage : 0.0;
+        this.waterUsage = waterUsage != null ? waterUsage : 0.0;
+        this.status = status;
+        calculateTotalAmountDue();
+    }
+
+    public Fee(Apartment apartment, Double electricityUsage, Double waterUsage, PaymentStatus status, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = UUID.randomUUID();
+        this.apartment = apartment;
+        this.electricityUsage = electricityUsage != null ? electricityUsage : 0.0;
+        this.waterUsage = waterUsage != null ? waterUsage : 0.0;
+        this.status = status;
+        this.createdAt = createdAt != null ? createdAt : LocalDateTime.now();
+        this.updatedAt = updatedAt != null ? updatedAt : LocalDateTime.now();
+        calculateTotalAmountDue();
+    }
+
+
 
     public BigDecimal getTotal_extra_fee() {
         return total_extra_fee;
@@ -131,17 +152,17 @@ public class Fee {
 
     @Override
     public String toString() {
-
         return "Fee{" +
                 "id=" + id +
                 ", electricityUsage=" + electricityUsage +
                 ", waterUsage=" + waterUsage +
-                ", amount=" + total_amount_due +
+                ", total_amount_due=" + total_amount_due +
+                ", total_extra_fee=" + total_extra_fee +
                 ", status=" + status +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", paymentDate=" + paymentDate +
-                ", apartment_id=" + getApartmentId() +
+                ", apartment=" + apartment +
                 '}';
     }
 

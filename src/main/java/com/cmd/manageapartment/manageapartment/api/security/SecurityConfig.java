@@ -48,7 +48,8 @@ public class SecurityConfig {
                     auth.requestMatchers("/api/test").permitAll();
                     //Auth for specific role
 //                    auth.requestMatchers(HttpMethod.POST, "/api/residents/**").permitAll();
-                    auth.requestMatchers(HttpMethod.POST).hasAnyRole("ADMIN");
+//                    auth.requestMatchers(HttpMethod.POST).hasAnyRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.POST).permitAll(); //Just for test
                     auth.requestMatchers("/api/admin/**").hasAnyRole("ADMIN");
                     auth.requestMatchers(HttpMethod.GET).permitAll();
                     auth.requestMatchers(HttpMethod.PUT).hasAnyRole("ADMIN");
@@ -56,7 +57,8 @@ public class SecurityConfig {
 //                    auth.requestMatchers(HttpMethod.POST).permitAll();
                     //Auth for delete
 
-                    auth.requestMatchers(HttpMethod.DELETE).hasAnyRole("ADMIN");
+//                    auth.requestMatchers(HttpMethod.DELETE).hasAnyRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.DELETE).permitAll();
 
                     auth.anyRequest().authenticated();
                 })
