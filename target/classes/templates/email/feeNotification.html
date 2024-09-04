@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fee Notification</title>
+</head>
+<body>
+<p>Hello [[${residentName}]],</p>
+<p>We hope you're doing well. This is a reminder of the fees associated with your apartment that are due for payment. Please find the details below:</p>
+
+<ul>
+    <li>Apartment Number: [[${apartmentNumber}]]</li>
+    <li>Electricity Usage: [[${electricityUsage}]] kWh</li>
+    <li>Water Usage: [[${waterUsage}]] units</li>
+    <li>Total Extra Fees: [[${totalExtraFees}]] VND</li>
+</ul>
+
+<p><strong>Total Amount Due: [[${totalAmountDue}]] VND</strong></p>
+
+<p>Payment is due by 2 weeks from the day this email sent. Please make sure to pay on time to avoid any late fees.</p>
+
+<p>Thank you for your prompt attention to this matter.</p>
+
+<p>Sincerely,</p>
+<p>Your Apartment Management Team</p>
+</body>
+</html>
+
