@@ -6,21 +6,17 @@ import com.cmd.manageapartment.manageapartment.api.models.Fee;
 import com.cmd.manageapartment.manageapartment.api.models.PaymentStatus;
 import com.cmd.manageapartment.manageapartment.api.repository.ApartmentRepository;
 import com.cmd.manageapartment.manageapartment.api.repository.FeeRepository;
-import com.cmd.manageapartment.manageapartment.api.service.FeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
