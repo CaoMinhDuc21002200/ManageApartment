@@ -36,7 +36,7 @@ public class ApartmentController {
     }
 
     @GetMapping("/{apartmentNumber}")
-    public ResponseEntity<Apartment> getApartmentByNumber(@PathVariable String apartmentNumber) {
+    public ResponseEntity<Apartment> getApartmentByNumber(@PathVariable("apartmentNumber") String apartmentNumber) {
         Apartment apartment = apartmentService.getApartmentByNumber(apartmentNumber).orElseThrow(null);
         if (apartment == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -52,19 +52,19 @@ public class ApartmentController {
 
     //Put
     @PutMapping("/{num}")
-    public ResponseEntity<String> updateApartment(@PathVariable String num, @RequestBody Apartment apartment) {
+    public ResponseEntity<String> updateApartment(@PathVariable("num") String num, @RequestBody Apartment apartment) {
       Apartment updatedApartment = apartmentService.updateApartment(num, apartment);
       return new ResponseEntity<>("Update Apartment Successfully.", HttpStatus.OK);
     }
 
     @DeleteMapping("/{num}")
-    public ResponseEntity<String> deleteApartmentByApartmentNumber(@PathVariable String num) {
+    public ResponseEntity<String> deleteApartmentByApartmentNumber(@PathVariable("num") String num) {
         apartmentService.deleteApartmentByApartmentNumber(num);
         return new ResponseEntity<>("Delete Successfully.", HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/temporary/{apartmentNumber}")
-    public ResponseEntity<String> deleteLogicalApartmentByApartmentNumber(@PathVariable String apartmentNumber) {
+    public ResponseEntity<String> deleteLogicalApartmentByApartmentNumber(@PathVariable("apartmentNumber") String apartmentNumber) {
         apartmentService.deleteLogicApartmentByNumber(apartmentNumber);
         return new ResponseEntity<>("Delete Logically Successfully.", HttpStatus.OK);
     }

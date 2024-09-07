@@ -1,13 +1,11 @@
 package com.cmd.manageapartment.manageapartment.api.models;
 
-import com.cmd.manageapartment.manageapartment.api.repository.ApartmentRepository;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -18,7 +16,6 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "fee")
-
 public class Fee {
 
 
@@ -106,6 +103,10 @@ public class Fee {
         calculateTotalAmountDue();
     }
 
+    public Double getElectricityUsage(){
+        return this.electricityUsage;
+    }
+
     public void setWaterUsage(Double waterUsage) {
 
         this.waterUsage = (waterUsage != null && waterUsage > 0) ? waterUsage : 0.0;;
@@ -153,6 +154,21 @@ public class Fee {
         return apartment.getId();  // Accessing apartmentId through the Apartment entity
     }
 
+    public PaymentStatus getStatus() {
+        return status;
+    }
+
+    public Apartment getApartment() {
+        return apartment;
+    }
+
+    public Double getWaterUsage() {
+        return waterUsage;
+    }
+
+    public BigDecimal getTotal_amount_due() {
+        return total_amount_due;
+    }
 
     @Override
     public String toString() {

@@ -15,11 +15,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -28,6 +30,8 @@ public class AuthController {
     private final ApartmentRepository apartmentRepository;
 
     private final AuthenticationManager authenticationManager;
+
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -56,7 +60,7 @@ public class AuthController {
     }
 
     @PostMapping("register")
-
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
         if (registerDto.getApartmentId()==null) {
             registerDto.setApartmentId("");
@@ -73,16 +77,23 @@ public class AuthController {
     }
 
     @PostMapping("login")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto loginDto){
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginDto.getUsername(),
-                        loginDto.getPassword()) );
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginDto.getUsername(),
+                            loginDto.getPassword()));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtGenerator.generateToken(authentication);
-        AuthResponseDto authResponseDto = new AuthResponseDto(token);
-        return ResponseEntity.ok(authResponseDto);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = jwtGenerator.generateToken(authentication);
+            AuthResponseDto authResponseDto = new AuthResponseDto(token);
+            return ResponseEntity.ok(authResponseDto);
+        }catch (AuthenticationException e) {
+            // Log the exception and return an appropriate response
+            logger.info("Authentication failed for user: " + loginDto.getUsername() + e);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
 
     }
 

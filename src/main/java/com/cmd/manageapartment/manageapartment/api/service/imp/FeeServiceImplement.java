@@ -6,7 +6,6 @@ import com.cmd.manageapartment.manageapartment.api.repository.ApartmentRepositor
 import com.cmd.manageapartment.manageapartment.api.models.Apartment;
 import com.cmd.manageapartment.manageapartment.api.models.Fee;
 import com.cmd.manageapartment.manageapartment.api.models.PaymentStatus;
-import com.cmd.manageapartment.manageapartment.api.repository.ApartmentRepository;
 import com.cmd.manageapartment.manageapartment.api.repository.FeeRepository;
 import com.cmd.manageapartment.manageapartment.api.service.FeeService;
 import org.springframework.beans.factory.annotation.Autowired;

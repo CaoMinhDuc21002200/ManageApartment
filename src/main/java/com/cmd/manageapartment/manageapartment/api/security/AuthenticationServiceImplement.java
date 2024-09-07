@@ -7,7 +7,6 @@ import com.cmd.manageapartment.manageapartment.api.models.UserEntity;
 import com.cmd.manageapartment.manageapartment.api.repository.ApartmentRepository;
 import com.cmd.manageapartment.manageapartment.api.repository.RolesRepository;
 import com.cmd.manageapartment.manageapartment.api.repository.UserRepository;
-import io.jsonwebtoken.lang.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

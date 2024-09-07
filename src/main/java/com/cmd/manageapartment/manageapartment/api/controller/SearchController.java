@@ -45,7 +45,7 @@ public class SearchController {
     }
 
     @GetMapping("apartment/{apartmentNumber}")
-    public ResponseEntity<ApartmentWithResidentsResponse> searchByApartmentNumber(@Validated @PathVariable String apartmentNumber) {
+    public ResponseEntity<ApartmentWithResidentsResponse> searchByApartmentNumber(@Validated @PathVariable("apartmentNumber") String apartmentNumber) {
         Optional<Apartment> apartmentOptional = apartmentService.getApartmentByNumber(apartmentNumber);
 
         if (apartmentOptional.isPresent()) {

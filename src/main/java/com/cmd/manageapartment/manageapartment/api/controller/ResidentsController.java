@@ -27,7 +27,7 @@ public class ResidentsController {
     // {fullname,sex,date_of_birth,phone,email,identity_card_number}
 
     @PostMapping("apartment/{apartmentNumber}")
-    public ResponseEntity<Residents> createResidentWithApartmentId(@PathVariable String apartmentNumber,@RequestBody Residents resident) {
+    public ResponseEntity<Residents> createResidentWithApartmentId(@PathVariable("apartmentNumber") String apartmentNumber,@RequestBody Residents resident) {
         Residents createdResident = residentsService.createResidentWithApartmentNumber(apartmentNumber,resident);
         return new ResponseEntity<>(createdResident, HttpStatus.OK);
     }
@@ -40,28 +40,28 @@ public class ResidentsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Residents> getResidentById(@PathVariable UUID id) {
+    public ResponseEntity<Residents> getResidentById(@PathVariable("id") UUID id) {
         Optional<Residents> resident = residentsService.getResidentById(id);
         return resident.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/apartment/{apartmentId}")
-    public ResponseEntity<List<Residents>> getResidentsByApartmentId(@PathVariable UUID apartmentId) {
+    public ResponseEntity<List<Residents>> getResidentsByApartmentId(@PathVariable("apartmentId") UUID apartmentId) {
         List<Residents> residents = residentsService.getResidentByApartmentId(apartmentId);
         return ResponseEntity.ok(residents);
     }
 
     //Put
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateResidentById(@PathVariable UUID id, @RequestBody Residents resident) {
+    public ResponseEntity<String> updateResidentById(@PathVariable("id") UUID id, @RequestBody Residents resident) {
         Residents updatedResident = residentsService.updateResidentById(id, resident);
         return ResponseEntity.ok("Update Resident Successfully.\n"+ updatedResident);
     }
 
     //Delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteResidentById(@PathVariable UUID id) {
+    public ResponseEntity<String> deleteResidentById(@PathVariable("id") UUID id) {
         residentsService.deleteResidentById(id);
         return new ResponseEntity<>("Delete Residents Successfully!",HttpStatus.NO_CONTENT);
 

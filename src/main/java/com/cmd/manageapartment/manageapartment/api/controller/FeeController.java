@@ -53,7 +53,7 @@ public class FeeController {
 
 
         @GetMapping("/apartment/{apartmentNumber}")
-        public ResponseEntity<List<Fee>> getFeesByApartmentNumber(@PathVariable String apartmentNumber) {
+        public ResponseEntity<List<Fee>> getFeesByApartmentNumber(@PathVariable("apartmentNumber") String apartmentNumber) {
         List<Fee> fees = feeService.getFeesByApartmentNumber(apartmentNumber);
         if (fees == null) {
             return ResponseEntity.notFound().build();
@@ -80,7 +80,7 @@ public class FeeController {
         }
 
         @PutMapping("/{id}/payment-status")
-        public ResponseEntity<Fee> updatePaymentStatusById(@PathVariable UUID id, @RequestParam PaymentStatus status) {
+        public ResponseEntity<Fee> updatePaymentStatusById(@PathVariable("id") UUID id, @RequestParam PaymentStatus status) {
         Fee updatedFee = feeService.updatePaymentStatusById(id, status);
         return ResponseEntity.ok(updatedFee);
         }
@@ -90,7 +90,7 @@ public class FeeController {
 
         //Delete
         @DeleteMapping("/{id}")
-        public ResponseEntity<String> deleteFeeById(@PathVariable UUID id){
+        public ResponseEntity<String> deleteFeeById(@PathVariable("id") UUID id){
             feeService.deleteFeeById(id);
             return new ResponseEntity<>("Delete Successfully.",HttpStatus.NO_CONTENT);
         }

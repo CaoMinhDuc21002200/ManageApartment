@@ -1,15 +1,12 @@
 package com.cmd.manageapartment.manageapartment.api.service.imp;
 
-import com.cmd.manageapartment.manageapartment.api.exception.ResourceNotFoundException;
 import com.cmd.manageapartment.manageapartment.api.models.Apartment;
 import com.cmd.manageapartment.manageapartment.api.repository.ApartmentRepository;
-import com.cmd.manageapartment.manageapartment.api.service.ApartmentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,6 +1,5 @@
 package com.cmd.manageapartment.manageapartment.api.service;
 
-import com.cmd.manageapartment.manageapartment.api.models.Apartment;
 import com.cmd.manageapartment.manageapartment.api.models.ExtraFee;
 
 import java.util.List;
