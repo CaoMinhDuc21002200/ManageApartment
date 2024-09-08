@@ -1,6 +1,6 @@
 package com.cmd.manageapartment.manageapartment.api.security;
 
-import com.cmd.manageapartment.manageapartment.api.dto.RegisterDto;
+import com.cmd.manageapartment.manageapartment.api.dto.RegisterDTO;
 import com.cmd.manageapartment.manageapartment.api.models.Apartment;
 import com.cmd.manageapartment.manageapartment.api.models.Roles;
 import com.cmd.manageapartment.manageapartment.api.models.UserEntity;
@@ -30,7 +30,7 @@ public class AuthenticationServiceImplement {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void registerUser(RegisterDto registerDto) {
+    public void registerUser(RegisterDTO registerDto) {
         // Validate if the username already exists
         String username = registerDto.getUsername();
         String password = registerDto.getPassword();

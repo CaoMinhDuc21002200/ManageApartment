@@ -1,9 +1,10 @@
 package com.cmd.manageapartment.manageapartment.api.controller;
 
 
-import com.cmd.manageapartment.manageapartment.api.dto.AuthResponseDto;
-import com.cmd.manageapartment.manageapartment.api.dto.LoginDto;
-import com.cmd.manageapartment.manageapartment.api.dto.RegisterDto;
+import com.cmd.manageapartment.manageapartment.api.dto.AuthResponseDTO;
+import com.cmd.manageapartment.manageapartment.api.dto.ErrorResponseDTO;
+import com.cmd.manageapartment.manageapartment.api.dto.LoginDTO;
+import com.cmd.manageapartment.manageapartment.api.dto.RegisterDTO;
 import com.cmd.manageapartment.manageapartment.api.repository.ApartmentRepository;
 import com.cmd.manageapartment.manageapartment.api.repository.RolesRepository;
 import com.cmd.manageapartment.manageapartment.api.repository.UserRepository;
@@ -61,7 +62,7 @@ public class AuthController {
 
     @PostMapping("register")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
+    public ResponseEntity<String> register(@RequestBody RegisterDTO registerDto) {
         if (registerDto.getApartmentId()==null) {
             registerDto.setApartmentId("");
             authenticationService.registerUser(registerDto);
@@ -78,7 +79,7 @@ public class AuthController {
 
     @PostMapping("login")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto loginDto){
+    public ResponseEntity<?> login(@RequestBody LoginDTO loginDto){
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -87,12 +88,14 @@ public class AuthController {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String token = jwtGenerator.generateToken(authentication);
-            AuthResponseDto authResponseDto = new AuthResponseDto(token);
+            AuthResponseDTO authResponseDto = new AuthResponseDTO(token);
             return ResponseEntity.ok(authResponseDto);
         }catch (AuthenticationException e) {
+
             // Log the exception and return an appropriate response
             logger.info("Authentication failed for user: " + loginDto.getUsername() + e);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseDTO("Incorrect username or password."));
+
         }
 
     }
